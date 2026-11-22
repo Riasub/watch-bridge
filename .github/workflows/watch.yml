@@ -1,0 +1,29 @@
+name: watch
+
+# 서명 없이 컴파일만 확인한다. TestFlight 업로드는 Apple 개발자 계정을 만든 뒤에 추가한다.
+on:
+  push:
+    paths:
+      - "watch/**"
+      - ".github/workflows/watch.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: XcodeGen 설치
+        run: brew install xcodegen
+      - name: Xcode 프로젝트 생성
+        working-directory: watch
+        run: xcodegen generate
+      - name: watchOS 시뮬레이터용 컴파일 (서명 없음)
+        working-directory: watch
+        run: |
+          xcodebuild \
+            -project WatchBridge.xcodeproj \
+            -scheme WatchBridge \
+            -destination 'generic/platform=watchOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build

@@ -1,0 +1,24 @@
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.apk
+*.aab
+*.keystore
+*.jks
+.idea/
+*.iml
+
+# Xcode / watchOS
+watch/*.xcodeproj
+watch/build/
+watch/DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# 비밀 값
+.env
+*.p8
+*.p12
+*.mobileprovision
