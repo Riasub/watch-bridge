@@ -16,7 +16,12 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      - uses: android-actions/setup-android@v3
+      # 우분투 러너에는 Android SDK 가 이미 있다(ANDROID_HOME). 필요한 패키지만 확인한다.
+      - name: Android SDK 패키지 확인
+        run: |
+          SDKMANAGER=$(ls "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | head -1)
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
       - name: 단위 테스트
         working-directory: android
         run: ./gradlew testDebugUnitTest --console=plain
